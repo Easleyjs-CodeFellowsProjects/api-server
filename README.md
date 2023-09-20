@@ -1,61 +1,56 @@
-# Basic Express Server
+# Basic API Server
 
-Basic Express Server with One Route
+Basic API Server with CRUD db routes
 
 ## Install instructions:
 
-npm i express cors dotenv jest supertest
+npm i express cors dotenv jest supertest sequelize pg sqlite3
 
 ## Render.com URL:
-https://basic-express-server-lx9c.onrender.com/
+https://basic-api-server-csz7.onrender.com/
 
 ## Assignment instructions
 
-Person Route
-Method: GET
-Path: /person
-Expects a query string from the user with a “name” property
-When present, output JSON to the client with this shape: { name: "name provided" }
-Without a name in the query string, force a “500” error
+### SQL Models
+- Create 2 SQL data models using the Sequelize library, make sure you export those model instances.
+- Make sure your Models are configured with your SQL dialect and can properly connect to your database.
 
-index.js at the root of your repository, which will act as the “entry point” to your server.
-should require src/server.js
-should require dotenv, reading PORT from your .env file
-It should call the .start() method from the server with the PORT set in your environment
+Your models should have appropriate field names declared with specific sequelize DataTypes.
 
+### Routes
+In your express server, create a route module for each data model that you’ve created. Within the router module, create REST route handlers for each of the REST Methods that properly calls the correct CRUD method from the matching data model.
 
-src/server.js which will serve as your server ‘module’ … will contain all of the module connections for the server
-Must export an object with a start() method (it should not start on it’s own) and a reference to the express app
+Add a Record
+CRUD Operation: Create
+REST Method: POST
+Path: /food
+Input: JSON Object in the Request Body
+Returns: The record that was added to the database.
+You must generate an ID and attach it to the object.
+You should verify that only the fields you define get saved as a record.
 
+Get All Records
+CRUD Operation: Read
+REST Method: GET
+Path: /food
+Returns: An array of objects, each object being one entry from your database.
 
-## Create a middleware folder and add 2 middleware modules to it:
-### logger.js
-Performs a console.log with the request method and path
-Import this into your server and set it up to run at the application level for all routes
+Get One Record
+CRUD Operation: Read
+REST Method: GET
+Path: /food/1
+Returns: The object from the database, which has the id matching that which is in the path.
 
+Update a Record
+CRUD Operation: Update
+REST Method: PUT
+Path: /food/1
+Input: JSON Object in the Request Body
+Returns: The object from the database, which has the id matching that which is in the path, with the updated/changed data.
+You should verify that only the fields you define get saved as a record.
 
-### validator.js
-Checks the query string for a name property
-Sends the request through when valid, forces an error when not
-
-
-## Create a error-handlers folder and add 2 modules to it:
-404.js
-Sends a 404/Not-Found message as the response
-Import this into your server and set it up to be “used” after your other routes
-500.js
-Sends a 500/Server Error message as the response
-Import this into your server and set it up to be “used” as the last route
-
-## Create the /person route within your server.js
-This route should use the validator middleware to check the user’s input
-If valid, send a JSON object through the response with the name value in it
-i.e. {"name": "fred" }
-
-# Testing Requirements
-## Assert the following
-- 404 on a bad route
-- 404 on a bad method
-- 500 if no name in the query string
-- 200 if the name is in the query string
-- given an name in the query string, the output object is correct
+Delete a Record
+CRUD Operation: Destroy
+REST Method: DELETE
+Path: /food/1
+Returns: The record from the database as it exists after you delete it (i.e. null).
