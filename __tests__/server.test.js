@@ -49,16 +49,51 @@ describe('Testing REST Router for Player Info', () => {
     });
 
     test('Should UPDATE player', async () => {
-        let response = (await request.patch('/api/player')).send({
-            name: 'Joseph Johnson'
+        let response = await request.patch('/api/player/1').send({
+            name: 'Jermaine Johanssen'
         });
 
         expect(response.status).toEqual(200);
-        expect(response.body.name).toEqual('Joseph Johnson');
+        expect(response.body.name).toEqual('Jermaine Johanssen');
     });
 
     test('Should DELETE player', async () => {
         let response = await request.delete('/api/player/1');
+
+        expect(response.status).toEqual(204);
+    })
+})
+
+describe('Testing REST Router for Player Classes', () => {
+
+    test('Should READ player classes', async () => {
+        let response = await request.get('/api/playerclass');
+
+        expect(response.status).toEqual(200);
+        expect(response.body.results).toBeTruthy();
+    });
+
+    test('Should CREATE player class', async () => {
+        let response = await request.post('/api/playerclass').send({
+            name: 'Bard',
+            level: 22
+        })
+
+        expect(response.status).toEqual(200);
+        expect(response.body.name).toEqual('Bard');
+    });
+
+    test('Should UPDATE player class', async () => {
+        let response = await request.patch('/api/playerclass/1').send({
+            name: 'Ninja'
+        });
+
+        expect(response.status).toEqual(200);
+        expect(response.body.name).toEqual('Ninja');
+    });
+
+    test('Should DELETE player class', async () => {
+        let response = await request.delete('/api/playerclass/1');
 
         expect(response.status).toEqual(204);
     })
