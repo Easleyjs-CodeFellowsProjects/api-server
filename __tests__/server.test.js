@@ -14,7 +14,22 @@ afterAll(async () => {
     await sequelize.drop();
 });
 
-describe('Testing REST Router', () => {
+describe('Testing a 404 Error', () => {
+    test('Does it return a 404 Error on a bad path?', async () => {
+        let response = await request.get('/someBogusPath');
+
+        expect(response.status).toEqual(404);
+        expect(response.body.message).toEqual("PAGE NOT FOUND.");  
+    })
+    test('Does it return a 404 Error on a bad method?', async () => {
+        let response = await request.put('/api/player');
+
+        expect(response.status).toEqual(404);
+        expect(response.body.message).toEqual("PAGE NOT FOUND.");  
+    })
+})
+
+describe('Testing REST Router for Player Info', () => {
 
     test('Should READ players', async () => {
         let response = await request.get('/api/player');
