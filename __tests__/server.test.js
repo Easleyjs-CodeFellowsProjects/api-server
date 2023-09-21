@@ -29,6 +29,15 @@ describe('Testing a 404 Error', () => {
     })
 })
 
+describe('Testing a 500 Error', () => {
+    test('Does it return a 500 Error on an incomplete request?', async () => {
+        let response = await request.post('/api/player').send({ name: 'SOME GUY' });
+        expect(response.status).toEqual(500);
+        expect(response.body.message).toEqual("state must not be null.");
+    })
+
+})
+
 describe('Testing REST Router for Player Info', () => {
 
     test('Should READ players', async () => {
